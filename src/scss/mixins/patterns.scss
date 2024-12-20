@@ -1,0 +1,21 @@
+@import "variables";
+
+@mixin gridYellow {
+  background-image: linear-gradient(#f0d396 2px, transparent 2px), linear-gradient(to right, #f0d396 2px, transparent 2px);
+  background-size: 64px 64px;
+  background-color: #e0b149 !important;
+}
+
+@mixin checkYellow {
+  background-image: repeating-conic-gradient($retro-yellow-offset 0% 25%, $retro-yellow-light-offset 0% 50%);
+  background-position: 0 0, 16px 16px;
+  background-size: 32px 32px;
+  background-color: #47d3ff;
+}
+
+@mixin retro-box {
+  background: $retro-white;
+  border-radius: $retro-border-radius;
+  border: $retro-border;
+  box-shadow: $retro-container-shadow;
+}

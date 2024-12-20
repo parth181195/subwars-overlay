@@ -1,0 +1,31 @@
+<div class="answer-wrapper">
+  <div class="header">
+    <h2>Answers</h2>
+    <div class="actions">
+      <button mat-icon-button (click)="backToQuestions()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  @if (loading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="25"></mat-spinner>
+    </div>
+  } @else {
+    <div class="answer-wrap">
+      @for (entry of answers; track entry.id) {
+        <mat-card appearance="outlined" class="question-card">
+          <div class="answer">
+
+            <div class="title">
+              {{ entry.answer }}
+            </div>
+            <div class="user-name">
+              {{ entry.name }}
+            </div>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

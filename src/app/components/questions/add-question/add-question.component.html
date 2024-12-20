@@ -1,0 +1,11 @@
+<h2 mat-dialog-title> {{isEditing? 'Edit':'Add'}} Question!</h2>
+<mat-dialog-content>
+  <mat-form-field class="fullWidth">
+    <mat-label>What Question does a hero truly Want??</mat-label>
+    <input  matInput [(ngModel)]="text"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial [disabled]="!(text().trim())">Ok</button>
+</mat-dialog-actions>

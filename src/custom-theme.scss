@@ -1,0 +1,54 @@
+@use '@angular/material' as mat;
+@import "theme";
+@import "utils";
+@import "patterns";
+
+@include mat.core();
+
+$df-23-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+:root {
+  @include mat.all-component-themes($df-23-theme);
+  @include mat.system-level-colors($df-23-theme); // 👈 Added
+  @include mat.system-level-typography($df-23-theme); // 👈 Added
+}
+
+
+@font-face {
+  font-family: 'GSB';
+  src: url(https://df24.b-cdn.net/fonts/gsdb.woff) format('truetype');
+}
+
+@font-face {
+  font-family: 'GSR';
+  //noinspection CssUnknownTarget
+  src: url(https://df24.b-cdn.net/fonts/gsdr.woff) format('truetype');
+  unicode-range: U+000-5FF; /* Download only latin glyphs */
+}
+
+html, body {
+  height: 100%;
+  background: mat.get-theme-color($df-23-theme, background);
+
+  * {
+    font-family: 'GSR', sans-serif;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
