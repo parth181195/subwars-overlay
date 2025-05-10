@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "notes-f8d03"
-  }
+  },
+  "targets":
+         {
+           "notes-f8d03":
+                         {
+                           "hosting": {
+                                        "subwars-overlay": ["subwars-overlay"]
+                                      }
+                         }
+          }
 }

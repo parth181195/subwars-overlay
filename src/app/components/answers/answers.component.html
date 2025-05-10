@@ -1,6 +1,14 @@
 <div class="answer-wrapper">
   <div class="header">
-    <h2>Answers</h2>
+    <div class="title">
+      <h2>
+        <div class="status" [ngClass]="{'active': question?.active, 'inactive': !question?.active}"></div>
+        Answers: {{ answers.length }}
+        <button mat-icon-button (click)="downloadJson()"><mat-icon>download</mat-icon></button>
+        <button mat-icon-button (click)="deleteAnswer()"><mat-icon>delete</mat-icon></button>
+      </h2>
+      <div>{{question?.text}}</div>
+    </div>
     <div class="actions">
       <button mat-icon-button (click)="backToQuestions()">
         <mat-icon>close</mat-icon>
@@ -14,9 +22,8 @@
   } @else {
     <div class="answer-wrap">
       @for (entry of answers; track entry.id) {
-        <mat-card appearance="outlined" class="question-card">
+        <mat-card appearance="outlined" class="question-card" (click)="showUserData(entry.userId, entry.name)">
           <div class="answer">
-
             <div class="title">
               {{ entry.answer }}
             </div>

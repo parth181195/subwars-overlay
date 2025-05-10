@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "public": "dist/subwars-overlay",
+    "public": "dist/subwars-overlay/browser",
+    "target":"subwars-overlay",
     "ignore": [
       "firebase.json",
       "**/.*",
