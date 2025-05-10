@@ -22,20 +22,19 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-questions',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatButton,
-    AsyncPipe,
-    JsonPipe,
-    MatIconButton,
-    MatIcon,
-    MatCheckbox,
-    NgClass
-  ],
-  templateUrl: './questions.component.html',
-  styleUrl: './questions.component.sass'
+    selector: 'app-questions',
+    imports: [
+        MatCard,
+        MatButton,
+        AsyncPipe,
+        JsonPipe,
+        MatIconButton,
+        MatIcon,
+        MatCheckbox,
+        NgClass
+    ],
+    templateUrl: './questions.component.html',
+    styleUrl: './questions.component.sass'
 })
 export class QuestionsComponent {
   firestore = inject(Firestore);

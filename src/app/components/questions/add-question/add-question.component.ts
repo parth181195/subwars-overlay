@@ -12,21 +12,20 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 
 @Component({
-  selector: 'app-add-question',
-  standalone: true,
-  imports: [
-    MatDialogContent,
-    MatFormField,
-    MatDialogActions,
-    MatDialogClose,
-    FormsModule,
-    MatLabel,
-    MatInput,
-    MatButton,
-    MatDialogTitle
-  ],
-  templateUrl: './add-question.component.html',
-  styleUrl: './add-question.component.sass'
+    selector: 'app-add-question',
+    imports: [
+        MatDialogContent,
+        MatFormField,
+        MatDialogActions,
+        MatDialogClose,
+        FormsModule,
+        MatLabel,
+        MatInput,
+        MatButton,
+        MatDialogTitle
+    ],
+    templateUrl: './add-question.component.html',
+    styleUrl: './add-question.component.sass'
 })
 export class AddQuestionComponent {
   readonly dialogRef = inject(MatDialogRef<AddQuestionComponent>);

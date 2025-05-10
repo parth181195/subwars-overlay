@@ -23,19 +23,18 @@ import {saveAs} from 'file-saver';
 import {ConfirmationComponent} from "../confirmation/confirmation.component";
 
 @Component({
-  selector: 'app-answers',
-  standalone: true,
-  imports: [
-    MatButton,
-    MatIcon,
-    MatIconButton,
-    MatProgressSpinner,
-    AsyncPipe,
-    MatCard,
-    NgClass
-  ],
-  templateUrl: './answers.component.html',
-  styleUrl: './answers.component.sass'
+    selector: 'app-answers',
+    imports: [
+        MatButton,
+        MatIcon,
+        MatIconButton,
+        MatProgressSpinner,
+        AsyncPipe,
+        MatCard,
+        NgClass
+    ],
+    templateUrl: './answers.component.html',
+    styleUrl: './answers.component.sass'
 })
 export class AnswersComponent {
   private activatedRoute = inject(ActivatedRoute);

@@ -9,16 +9,15 @@ import {
 import {MatButton} from "@angular/material/button";
 
 @Component({
-  selector: 'app-confirmation',
-  standalone: true,
-  imports: [
-    MatDialogContent,
-    MatDialogTitle,
-    MatDialogActions,
-    MatButton
-  ],
-  templateUrl: './confirmation.component.html',
-  styleUrl: './confirmation.component.sass'
+    selector: 'app-confirmation',
+    imports: [
+        MatDialogContent,
+        MatDialogTitle,
+        MatDialogActions,
+        MatButton
+    ],
+    templateUrl: './confirmation.component.html',
+    styleUrl: './confirmation.component.sass'
 })
 export class ConfirmationComponent {
 

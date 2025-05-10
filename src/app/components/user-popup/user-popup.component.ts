@@ -11,18 +11,17 @@ import {MatButton} from "@angular/material/button";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
-  selector: 'app-user-popup',
-  standalone: true,
-  imports: [
-    MatDialogContent,
-    MatButton,
-    MatDialogActions,
-    MatProgressSpinner,
-    MatDialogClose,
-    MatDialogTitle
-  ],
-  templateUrl: './user-popup.component.html',
-  styleUrl: './user-popup.component.sass'
+    selector: 'app-user-popup',
+    imports: [
+        MatDialogContent,
+        MatButton,
+        MatDialogActions,
+        MatProgressSpinner,
+        MatDialogClose,
+        MatDialogTitle
+    ],
+    templateUrl: './user-popup.component.html',
+    styleUrl: './user-popup.component.sass'
 })
 export class UserPopupComponent {
   readonly dialogRef = inject(MatDialogRef<UserPopupComponent>);

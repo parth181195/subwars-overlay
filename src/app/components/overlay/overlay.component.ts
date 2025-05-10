@@ -10,20 +10,19 @@ import {AsyncPipe, JsonPipe, NgClass} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
 
 @Component({
-  selector: 'app-overlay',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatMenuModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe,
-    RouterOutlet,
-    NgClass,
-    JsonPipe,
-  ],
-  templateUrl: './overlay.component.html',
-  styleUrl: './overlay.component.sass'
+    selector: 'app-overlay',
+    imports: [
+        MatButtonModule,
+        MatMenuModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe,
+        RouterOutlet,
+        NgClass,
+        JsonPipe,
+    ],
+    templateUrl: './overlay.component.html',
+    styleUrl: './overlay.component.sass'
 })
 export class OverlayComponent implements AfterViewInit {
   app = inject(AppService)
