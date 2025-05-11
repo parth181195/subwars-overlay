@@ -1,0 +1,46 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: orange,));
+
+}
+
+.quiz-wrapper {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  .quiz-card {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 1px solid #969696;
+    padding: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .actions{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+}

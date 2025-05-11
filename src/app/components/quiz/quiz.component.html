@@ -1,0 +1,35 @@
+<mat-toolbar>
+  <div class="title">
+    Subwars Quiz
+  </div>
+</mat-toolbar>
+<div class="quiz-wrapper">
+  <div class="header">
+    <h2>Quizzes</h2>
+    <div class="actions">
+      <button mat-stroked-button (click)="addQuiz()">Add Quiz</button>
+    </div>
+  </div>
+  <div class="quizzes">
+    @if (loading.loading |async) {
+      <app-loader/>
+    } @else {
+      @for (quiz of quizzes; track quiz.uid) {
+        <div class="quiz-card" matRipple (click)="goToQuiz(quiz.uid)">
+          <div class="title">
+            {{ quiz.name }}
+          </div>
+          <div class="actions">
+            <span>Questions : {{ quiz.questions }}</span>
+            <button mat-icon-button (click)="$event.stopPropagation();editQuiz(quiz)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="$event.stopPropagation();deleteQuiz(quiz.uid)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
