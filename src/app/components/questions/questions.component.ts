@@ -1,130 +1,84 @@
 import {Component, inject} from '@angular/core';
 import {MatCard} from "@angular/material/card";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {
-  collection,
-  Firestore,
-  addDoc,
-  setDoc,
-  collectionData,
-  doc,
-  deleteDoc,
-  getDocs,
-  updateDoc,
-  where, query
-} from "@angular/fire/firestore";
 import {MatDialog} from "@angular/material/dialog";
-import {AddQuestionComponent} from "./add-question/add-question.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {AsyncPipe, JsonPipe, NgClass} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {AddQuestionComponent} from "../pop-ups/add-question/add-question.component";
+import {QuizI} from "../../types/quiz.type";
+import {WithUID} from "../../types/generic.type";
+import {AfsService} from "../../services/afs.service";
+import {BehaviorSubject} from "rxjs";
+import {LoaderComponent} from "../loader/loader.component";
+import {QuestionI} from "../../types/question.type";
 
 @Component({
-    selector: 'app-questions',
-    imports: [
-        MatCard,
-        MatButton,
-        AsyncPipe,
-        JsonPipe,
-        MatIconButton,
-        MatIcon,
-        MatCheckbox,
-        NgClass
-    ],
-    templateUrl: './questions.component.html',
-    styleUrl: './questions.component.sass'
+  selector: 'app-questions',
+  imports: [
+    MatCard,
+    MatButton,
+    AsyncPipe,
+    MatIconButton,
+    MatIcon,
+    NgClass,
+    MatMenuModule,
+    MatToolbarModule,
+    LoaderComponent
+  ],
+  templateUrl: './questions.component.html',
+  styleUrl: './questions.component.scss'
 })
 export class QuestionsComponent {
-  firestore = inject(Firestore);
-  snackBar = inject(MatSnackBar);
-  router =  inject(Router);
-  questionsCollection = collection(this.firestore, 'questions');
-  questions$ = collectionData<any>(this.questionsCollection, {idField: 'id'});
+  quiz: QuizI & WithUID;
+  questions: Array<QuestionI & WithUID> = [];
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router)
+  afs = inject(AfsService)
   readonly dialog = inject(MatDialog);
+  loading = {
+    initial: new BehaviorSubject(true),
+  }
+
+  constructor() {
+    this.activatedRoute.params.subscribe(params => {
+      const quizId = params['id'];
+      this.getQuiz(quizId);
+      this.getQuestions(quizId);
+    })
+  }
+
+  getQuiz(quizId: string) {
+    this.loading.initial.next(true);
+    if (quizId) {
+      this.afs.getQuiz(quizId).then(quiz => {
+        this.quiz = {...quiz.data(), uid: quizId} as QuizI & WithUID;
+        console.log(this.quiz)
+        this.loading.initial.next(false);
+      })
+    }
+  }
+
+  getQuestions(quizId: string) {
+    this.afs.getQuestions(quizId).then(questions => {
+      questions.docs.forEach((question: any) => {
+        this.questions.push({
+          ...question.data(),
+          uid: question.id
+        })
+      })
+    })
+  }
 
   addQuestion() {
     let dialogRef = this.dialog.open(AddQuestionComponent, {
       width: '600px',
       data: {text: ''},
     });
-    dialogRef.afterClosed().subscribe(result => {
-      this.addQuestionToFS(result.text);
-    });
   }
 
-  addQuestionToFS(text: string) {
-    addDoc(this.questionsCollection, {text: text, active: false}).then(() => {
-      this.snackBar.open('Question added', 'Close',)
-    });
-  }
-
-  setQuestionToFS(text: string, id: string) {
-    const docRef = doc(this.questionsCollection, id);
-    setDoc(docRef, {text: text, active: false}).then(() => {
-      this.snackBar.open('Question added', 'Close',)
-    });
-  }
-
-  editQuestion(question: { text: string, id: string }) {
-    let dialogRef = this.dialog.open(AddQuestionComponent, {
-      width: '600px',
-      data: {text: question.text, isEditing: true},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.setQuestionToFS(result.text, question.id);
-    });
-  }
-
-  deleteQuestion(id: string) {
-    const docRef = doc(this.questionsCollection, id);
-
-    deleteDoc(docRef).then(() => {
-      this.snackBar.open('Question deleted', 'Close',);
-    });
-  }
-
-  setActiveQuestion(id: string, state: boolean) {
-    getDocs(query(this.questionsCollection, where('active', '==', true))).then((querySnapshot) => {
-      if (querySnapshot.docs.length === 0) {
-        const docRef = doc(this.questionsCollection, id);
-        updateDoc(docRef, {active: state}).then(() => {
-          this.snackBar.open('Question set active', 'Close',);
-        });
-        return;
-      }
-      Promise.all(querySnapshot.docs.map((doc) => {
-        return updateDoc(doc.ref, {active: false});
-      })).then(() => {
-        const docRef = doc(this.questionsCollection, id);
-        updateDoc(docRef, {active: state}).then(() => {
-          this.snackBar.open('Question set active', 'Close',);
-        });
-      });
-    });
-  }
-
-  deactivateAllQuestions() {
-    getDocs(query(this.questionsCollection, where('active', '==', true))).then((querySnapshot) => {
-      Promise.all(querySnapshot.docs.map((doc) => {
-        return updateDoc(doc.ref, {active: false});
-      })).then(() => {
-        this.snackBar.open('All questions Deactivated', 'Close',);
-      });
-    });
-  }
-
-  deactivateQuestion(id: string) {
-    const docRef = doc(this.questionsCollection, id);
-    updateDoc(docRef, {active: false}).then(() => {
-      this.snackBar.open('Question Deactivated', 'Close',);
-    });
-  }
-
-  goToAnswer(id) {
-    this.router.navigate(['/answer', id]);
-  }
 }
 
 

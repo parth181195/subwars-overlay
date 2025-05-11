@@ -36,7 +36,10 @@
                 "src/scss",
                 "src/scss/mixins",
                 "fonts"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": ["mixed-decls", "color-functions", "global-builtin", "import"]
+              }
             },
             "styles": [
               "src/custom-theme.scss",

@@ -1,37 +1,52 @@
+<mat-toolbar>
+  <div class="title">
+    Subwars questions
+  </div>
+</mat-toolbar>
+
 <div class="question-wrapper">
   <div class="header">
     <h2>Questions</h2>
     <div class="actions">
-      <button mat-stroked-button (click)="deactivateAllQuestions()">
+
+      <button mat-stroked-button (click)="addQuestion()">
+        Add Question
+      </button>
+      <button mat-stroked-button>
         Deactivate All
       </button>
     </div>
   </div>
-  @for (question of questions$|async; track question.id) {
-    <mat-card appearance="outlined" class="question-card">
-      <div class="question">
+  @if (loading.initial |async) {
+    <app-loader/>
+  } @else {
+    <!--    @for (question of questions$|async; track question.id) {-->
+      <!--    <mat-card appearance="outlined" class="question-card">-->
+      <!--      <div class="question">-->
 
-        <div class="title">
-          <div class="status" [ngClass]="{'active': question.active, 'inactive': !question.active}"></div>
-          {{ question.text }}
-        </div>
-        <div class="actions">
-          <button mat-stroked-button
-                  (click)="question.active ? deactivateQuestion(question.id):setActiveQuestion(question.id, true)">
-            {{ question.active ? 'Deactivate' : 'Activate' }}
-          </button>
-           <button mat-icon-button (click)="goToAnswer(question.id)">
-            <mat-icon>list</mat-icon>
-          </button>
-          <button mat-icon-button (click)="editQuestion(question)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="deleteQuestion(question.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-    </mat-card>
+      <!--        <div class="title">-->
+      <!--          <div class="status" [ngClass]="{'active': question.active, 'inactive': !question.active}"></div>-->
+      <!--          {{ question.text }}-->
+      <!--        </div>-->
+      <!--        <div class="actions">-->
+      <!--          <button mat-stroked-button-->
+      <!--                  (click)="question.active ? deactivateQuestion(question.id):setActiveQuestion(question.id, true)">-->
+      <!--            {{ question.active ? 'Deactivate' : 'Activate' }}-->
+      <!--          </button>-->
+      <!--          <button mat-icon-button (click)="goToAnswer(question.id)">-->
+      <!--            <mat-icon>list</mat-icon>-->
+      <!--          </button>-->
+      <!--          <button mat-icon-button (click)="editQuestion(question)">-->
+      <!--            <mat-icon>edit</mat-icon>-->
+      <!--          </button>-->
+      <!--          <button mat-icon-button (click)="deleteQuestion(question.id)">-->
+      <!--            <mat-icon>delete</mat-icon>-->
+      <!--          </button>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--    </mat-card>-->
+      <!--    }-->
+      <!--  <button mat-stroked-button (click)="addQuestion()">Add</button>-->
   }
-  <button mat-stroked-button (click)="addQuestion()">Add</button>
+
 </div>

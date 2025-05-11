@@ -3,7 +3,8 @@
 @import "utils";
 @import "patterns";
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 $df-23-theme: mat.define-theme((
   color: (
@@ -11,9 +12,11 @@ $df-23-theme: mat.define-theme((
     primary: mat.$azure-palette,
     tertiary: mat.$blue-palette,
     use-system-variables: true,
+    system-variables-prefix: sys,
   ),
   typography: (
     use-system-variables: true,
+    system-variables-prefix: sys,
   ),
   density: (
     scale: 0,
@@ -51,4 +54,14 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: #acacac,
+  ));
+}
+
+.fullWidth {
+  width: 100%
 }

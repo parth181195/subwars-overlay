@@ -16,25 +16,22 @@ import {
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {MatCard} from "@angular/material/card";
-import {AddQuestionComponent} from "../questions/add-question/add-question.component";
 import {UserPopupComponent} from "../user-popup/user-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {saveAs} from 'file-saver';
-import {ConfirmationComponent} from "../confirmation/confirmation.component";
+import {ConfirmationComponent} from "../pop-ups/confirmation/confirmation.component";
 
 @Component({
-    selector: 'app-answers',
-    imports: [
-        MatButton,
-        MatIcon,
-        MatIconButton,
-        MatProgressSpinner,
-        AsyncPipe,
-        MatCard,
-        NgClass
-    ],
-    templateUrl: './answers.component.html',
-    styleUrl: './answers.component.sass'
+  selector: 'app-answers',
+  imports: [
+    MatIcon,
+    MatIconButton,
+    MatProgressSpinner,
+    MatCard,
+    NgClass
+  ],
+  templateUrl: './answers.component.html',
+  styleUrl: './answers.component.sass'
 })
 export class AnswersComponent {
   private activatedRoute = inject(ActivatedRoute);
@@ -94,7 +91,7 @@ export class AnswersComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      if(!result.delete) return;
+      if (!result.delete) return;
       this.answers.forEach((answer) => {
         deleteDoc(doc(this.fs, 'answers', answer.id));
       });

@@ -16,10 +16,7 @@ import {RouterOutlet} from "@angular/router";
         MatMenuModule,
         MatListModule,
         MatIconModule,
-        AsyncPipe,
-        RouterOutlet,
         NgClass,
-        JsonPipe,
     ],
     templateUrl: './overlay.component.html',
     styleUrl: './overlay.component.sass'
