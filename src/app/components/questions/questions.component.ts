@@ -14,6 +14,8 @@ import {AfsService} from "../../services/afs.service";
 import {BehaviorSubject} from "rxjs";
 import {LoaderComponent} from "../loader/loader.component";
 import {QuestionI} from "../../types/question.type";
+import {onSnapshot} from "@angular/fire/firestore";
+import {QuerySnapshot} from "@angular/fire/compat/firestore";
 
 @Component({
   selector: 'app-questions',
@@ -40,13 +42,28 @@ export class QuestionsComponent {
   readonly dialog = inject(MatDialog);
   loading = {
     initial: new BehaviorSubject(true),
+    crud: new BehaviorSubject(false),
   }
 
   constructor() {
     this.activatedRoute.params.subscribe(params => {
       const quizId = params['id'];
       this.getQuiz(quizId);
-      this.getQuestions(quizId);
+      onSnapshot(this.afs.getQuestions(quizId) as any,
+        {
+          next: (querySnapshot: any) => {
+            this.questions = [];
+            console.log(querySnapshot.docs)
+            querySnapshot.docs.forEach((question) => {
+                this.questions.push({
+                  ...question.data(),
+                  uid: question.id
+                })
+
+            })
+            console.log(this.questions)
+          }
+        })
     })
   }
 
@@ -61,22 +78,30 @@ export class QuestionsComponent {
     }
   }
 
-  getQuestions(quizId: string) {
-    this.afs.getQuestions(quizId).then(questions => {
-      questions.docs.forEach((question: any) => {
-        this.questions.push({
-          ...question.data(),
-          uid: question.id
-        })
-      })
-    })
-  }
+  // getQuestions(quizId: string) {
+  //   this.afs.getQuestions(quizId).then(questions => {
+  //     questions.docs.forEach((question: any) => {
+  //       this.questions.push({
+  //         ...question.data(),
+  //         uid: question.id
+  //       })
+  //     })
+  //   })
+  // }
 
   addQuestion() {
     let dialogRef = this.dialog.open(AddQuestionComponent, {
       width: '600px',
+      height: '620px',
       data: {text: ''},
     });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (!result) return;
+      this.loading.crud.next(true);
+      this.afs.addQuestion({...result, quizId: this.quiz.uid}).then((question: any) => {
+        this.loading.crud.next(false);
+      })
+    })
   }
 
 }

@@ -1,11 +1,51 @@
-<h2 mat-dialog-title> {{isEditing? 'Edit':'Add'}} Question!</h2>
+<h2 mat-dialog-title> {{ isEditing ? 'Edit' : 'Add' }} Question!</h2>
 <mat-dialog-content>
+  @if (loader.image |async) {
+    <div class="loader">
+      <img src="assets/images/loader.gif" alt="Loading..."/>
+      <div class="span">Hold on there image is using TP scroll to get to servers.</div>
+    </div>
+  }
   <mat-form-field class="fullWidth">
-    <mat-label>What Question does a hero truly Want??</mat-label>
-    <input  matInput [(ngModel)]="text"/>
+    <mat-label>Question Type</mat-label>
+    <mat-select [(ngModel)]="questionType">
+      @for (type of obj.values(QuestionTypes); track $index) {
+        <mat-option [value]="type">{{ type }}</mat-option>
+      }
+    </mat-select>
   </mat-form-field>
+  <mat-form-field class="fullWidth">
+    <mat-label>Question</mat-label>
+    <input matInput [(ngModel)]="questionText"/>
+  </mat-form-field>
+  <mat-form-field class="fullWidth">
+    <mat-label>Answer</mat-label>
+    <input matInput [(ngModel)]="answer"/>
+  </mat-form-field>
+  @if (questionType() !== QuestionTypes.TEXT) {
+    <div class="file-input">
+      <button mat-button (click)="fileInputq.click()">Upload Question Media</button>
+      @if (!!questionMedia()) {
+        <div class="preview">
+          <img [src]="basePath+questionMedia()" alt="">
+        </div>
+
+      }
+    </div>
+    <div class="file-input">
+      <button mat-button (click)="fileInputa.click()">Upload answer Media</button>
+      @if (!!answerMedia()) {
+        <div class="preview">
+          <img [src]="basePath+answerMedia()" alt="">
+        </div>
+
+      }
+    </div>
+  }
+  <input #fileInputq accept=".png,.jpg,.jpeg,.mp3,.wav" type="file" (change)="onFileSelected($event)" hidden/>
+  <input #fileInputa accept=".png,.jpg,.jpeg,.mp3,.wav" type="file" (change)="onFileSelected($event, false)" hidden/>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onSubmit()" cdkFocusInitial [disabled]="!(text().trim())">Ok</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitia [disabled]="shouldDisable()">Ok</button>
 </mat-dialog-actions>

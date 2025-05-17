@@ -14,6 +14,7 @@ import {
 import {CollectionNames} from "../constants/collection.names";
 import {QuizI} from "../types/quiz.type";
 import {WithUID} from "../types/generic.type";
+import {QuestionI} from "../types/question.type";
 
 @Injectable({
   providedIn: 'root'
@@ -63,8 +64,20 @@ export class AfsService {
   }
 
   getQuestions(quizId: string) {
-    const queryData = query(this.questionCollection, where('quizId', '==', quizId));
-    return getDocs(queryData);
+    return query(this.questionCollection, where('quizId', '==', quizId));
+  }
+
+  getNewQuestionId() {
+    return doc(this.questionCollection).id;
+  }
+
+  async addQuestion(data: QuestionI & WithUID) {
+    const docRef = doc(this.questionCollection, data.uid);
+    const payload = {...data}
+    delete payload.uid;
+    return setDoc(docRef, {
+      ...data,
+    })
   }
 
 }

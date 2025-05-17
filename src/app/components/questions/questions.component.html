@@ -9,10 +9,10 @@
     <h2>Questions</h2>
     <div class="actions">
 
-      <button mat-stroked-button (click)="addQuestion()">
+      <button mat-stroked-button (click)="addQuestion()" [disabled]="loading.crud |async">
         Add Question
       </button>
-      <button mat-stroked-button>
+      <button mat-stroked-button [disabled]="loading.crud |async">
         Deactivate All
       </button>
     </div>
@@ -20,33 +20,32 @@
   @if (loading.initial |async) {
     <app-loader/>
   } @else {
-    <!--    @for (question of questions$|async; track question.id) {-->
-      <!--    <mat-card appearance="outlined" class="question-card">-->
-      <!--      <div class="question">-->
-
-      <!--        <div class="title">-->
-      <!--          <div class="status" [ngClass]="{'active': question.active, 'inactive': !question.active}"></div>-->
-      <!--          {{ question.text }}-->
-      <!--        </div>-->
-      <!--        <div class="actions">-->
-      <!--          <button mat-stroked-button-->
-      <!--                  (click)="question.active ? deactivateQuestion(question.id):setActiveQuestion(question.id, true)">-->
-      <!--            {{ question.active ? 'Deactivate' : 'Activate' }}-->
-      <!--          </button>-->
-      <!--          <button mat-icon-button (click)="goToAnswer(question.id)">-->
-      <!--            <mat-icon>list</mat-icon>-->
-      <!--          </button>-->
-      <!--          <button mat-icon-button (click)="editQuestion(question)">-->
-      <!--            <mat-icon>edit</mat-icon>-->
-      <!--          </button>-->
-      <!--          <button mat-icon-button (click)="deleteQuestion(question.id)">-->
-      <!--            <mat-icon>delete</mat-icon>-->
-      <!--          </button>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </mat-card>-->
-      <!--    }-->
-      <!--  <button mat-stroked-button (click)="addQuestion()">Add</button>-->
+    @for (question of questions; track question.uid) {
+      <mat-card appearance="outlined" class="question-card">
+        <div class="question">
+          <div class="title">
+            <div class="status" [ngClass]="{'active': question.active, 'inactive': !question.active}"></div>
+            {{ question.questionText }}
+          </div>
+          <!--          <div class="actions">-->
+          <!--            <button mat-stroked-button-->
+          <!--                    (click)="question.active ? deactivateQuestion(question.id):setActiveQuestion(question.id, true)">-->
+          <!--              {{ question.active ? 'Deactivate' : 'Activate' }}-->
+          <!--            </button>-->
+          <!--            <button mat-icon-button (click)="goToAnswer(question.id)">-->
+          <!--              <mat-icon>list</mat-icon>-->
+          <!--            </button>-->
+          <!--            <button mat-icon-button (click)="editQuestion(question)">-->
+          <!--              <mat-icon>edit</mat-icon>-->
+          <!--            </button>-->
+          <!--            <button mat-icon-button (click)="deleteQuestion(question.id)">-->
+          <!--              <mat-icon>delete</mat-icon>-->
+          <!--            </button>-->
+          <!--          </div>-->
+        </div>
+      </mat-card>
+    }
+    <!--  <button mat-stroked-button (click)="addQuestion()">Add</button>-->
   }
 
 </div>
